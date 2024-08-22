@@ -1,14 +1,17 @@
-import { ReactNode } from "react";
+"use client";
+import { ReactNode, useCallback } from "react";
 import { BsEnvelope, BsTwitter } from "react-icons/bs";
 import { FaHashtag } from "react-icons/fa";
-import { IoIosNotificationsOutline } from "react-icons/io";
 import { IoNotificationsOutline, IoPersonOutline } from "react-icons/io5";
 import { PiBookmarkSimpleLight } from "react-icons/pi";
 import { RiHome5Fill } from "react-icons/ri";
-
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import FeedCard from "@/components/FeedCard";
 import { CiCircleMore } from "react-icons/ci";
 import { BiMoney } from "react-icons/bi";
+import toast from "react-hot-toast";
+import { graphQLClient } from "@/clients/api";
+import { verifyUserGoogleTokenQuery } from "@/graphql/query/user";
 
 interface TwitterSidebarButton {
   title: string;
@@ -52,10 +55,29 @@ const sidebarMenuItems: TwitterSidebarButton[] = [
 
 //TODO : Scroller should be remove
 export default function Home() {
+  const handleLoginWithGoogle = useCallback(
+    async (cred: CredentialResponse) => {
+      const googleToken = cred.credential;
+      if (!googleToken) return toast.error(`Google token not found`);
+
+      const { verifyGoogleToken } = await graphQLClient.request(
+        verifyUserGoogleTokenQuery,
+        { token: googleToken }
+      );
+
+      toast.success("Verified Success");
+      console.log(verifyGoogleToken);
+
+      if (verifyGoogleToken)
+        window.localStorage.setItem("__twitter_token", verifyGoogleToken);
+    },
+    []
+  );
+
   return (
     <div>
       <div className="grid grid-cols-12 h-screen w-screen px-56">
-        <div className="col-span-3 pt-1 ml-28">
+        <div className="col-span-3 pt-1">
           <div className="text-2xl h-fit w-fit hover:bg-gray-800 rounded-full p-4 cursor-pointer transition-all">
             <BsTwitter />
           </div>
@@ -87,7 +109,12 @@ export default function Home() {
           <FeedCard />
           <FeedCard />
         </div>
-        <div className="col-span-3"></div>
+        <div className="col-span-3 p-5">
+          <div className="p-5 bg-slate-700 rounded-lg w-fit">
+            <h1 className="my-2 text-2xl"> New to Twitter?</h1>
+            <GoogleLogin onSuccess={handleLoginWithGoogle}></GoogleLogin>
+          </div>
+        </div>
       </div>
     </div>
   );
