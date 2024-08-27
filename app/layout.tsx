@@ -3,7 +3,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import ClientSideLayout from "./clientLayout";
+import ClientSideLayout from "../components/Layout/clientLayout";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -1,5 +1,6 @@
 import { Tweet } from "@/gql/graphql";
 import Image from "next/image";
+import Link from "next/link";
 import React, { FunctionComponent } from "react";
 import { BiMessageRounded } from "react-icons/bi";
 import { FaRetweet } from "react-icons/fa";
@@ -28,7 +29,9 @@ const FeedCard: FunctionComponent<FeedCardProps> = (props) => {
         </div>
         <div className="col-span-11 pl-3">
           <h5>
-            {data.author?.firstName} {data.author?.lastName}
+            <Link href={`/${data.author?.id}`}>
+              {data.author?.firstName} {data.author?.lastName}
+            </Link>
           </h5>
           <p>{data.content}</p>
           <div className="flex justify-between mt-5 text-xl w-[80%]">

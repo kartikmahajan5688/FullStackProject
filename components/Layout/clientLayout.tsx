@@ -17,7 +17,7 @@ export default function ClientSideLayout({
       <GoogleOAuthProvider clientId="274949071740-6fqckpv5aqolg0vh4h89pvvfgjvsq35c.apps.googleusercontent.com">
         {children}
         <Toaster />
-        <ReactQueryDevtools />
+        <ReactQueryDevtools initialIsOpen={false} />
       </GoogleOAuthProvider>
     </QueryClientProvider>
   );
