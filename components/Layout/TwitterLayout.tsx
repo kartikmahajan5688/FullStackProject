@@ -104,7 +104,7 @@ const TwitterLayout: FunctionComponent<TwitterlayoutProps> = (props) => {
 
   return (
     <div>
-      <div className="grid grid-cols-12 px-36">
+      <div className="grid grid-cols-12 md:px-28">
         <div className="col-span-2 sm:col-span-3 pt-1 flex sm:justify-end pr-4 relative">
           <div>
             <div className="text-2xl h-fit w-fit hover:bg-gray-800 rounded-full p-4 cursor-pointer transition-all">

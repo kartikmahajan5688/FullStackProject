@@ -34,6 +34,15 @@ const FeedCard: FunctionComponent<FeedCardProps> = (props) => {
             </Link>
           </h5>
           <p>{data.content}</p>
+          {data.imageURL && (
+            <Image
+              className="mt-2"
+              src={data.imageURL}
+              alt="tweet-image"
+              height={400}
+              width={400}
+            />
+          )}
           <div className="flex justify-between mt-5 text-xl w-[80%]">
             <div>
               <BiMessageRounded />
